@@ -247,3 +247,8 @@ GitHub: [Duwar](https://github.com/Duwar)
 LinkedIn: [Perfil de LinkedIn](#)
 
 ¡Explora los ejemplos y adapta las soluciones a tus propios proyectos!
+
+## Link de Postman para probar Backend!
+
+https://class1-8675.postman.co/workspace/Clase_desarrollo~67e7655f-03aa-4d25-aa0f-095f7cce27bf/collection/25668283-d0ed9f67-bf54-44e5-a8bc-ff5ca6237ba7?action=share&creator=25668283
+
