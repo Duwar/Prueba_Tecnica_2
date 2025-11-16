@@ -4,7 +4,7 @@ import cors from "cors";
 import { fileURLToPath } from "url"; // modulo de node
 import path from "path"; // modulo de node
 import { conexionMongo } from "./src/config/db.js";
-import { userRouter } from './src/routes/users.routes.js';
+import { userRouter } from './src/routes/usuario.routes.js';
 import { loginRouter } from "./src/routes/login.routes.js";
 
 const app = express();

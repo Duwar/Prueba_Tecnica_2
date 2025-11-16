@@ -1,5 +1,5 @@
 import express from 'express';
-import { postUsers, getAllUsers, putUserById, deleteUserById, getUserById } from '../controllers/user.controller.js';
+import { postUsers, getAllUsers, putUserById, deleteUserById, getUserById } from '../controllers/usuario.controller.js';
 
 // 2. configurar el router
 export const userRouter = express.Router();
