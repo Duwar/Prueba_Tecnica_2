@@ -4,13 +4,22 @@ import bcryptjs from "bcryptjs";
 // 1. Crear un usuario (POST)
 export const postUsers = async (request, response) => {
     try {
+        const { name, email, password, role } = request.body;
 
+        if (!password) {
+            return response.status(400).json({
+                mensaje: "La contraseña es obligatoria"
+            });
+        }
         // crear el nuevo usuario con la contraseña encriptada
-        const codedPassword = await bcryptjs.hash(request.body.password, 10);
-        const newUser = new usuarioModel({
-            ...request.body,
-            password: codedPassword
 
+        const codedPassword = await bcryptjs.hash(password, 10);
+
+        const newUser = new usuarioModel({
+            name,
+            email,
+            password: codedPassword,
+            role: role || "user"
         });
 
         await newUser.save();
@@ -30,7 +39,7 @@ export const postUsers = async (request, response) => {
 // 2. Obtener todos los usuarios (GET)
 export const getAllUsers = async (request, response) => {
     try {
-        const allUsers = await usuarioModel.find().populate({  select: "name" }).select('-password');
+        const allUsers = await usuarioModel.find().populate("name").select('-password');
         return response.status(200).json({
             "mensaje": "Petición Exitosa",
             "data": allUsers
@@ -48,7 +57,7 @@ export const getAllUsers = async (request, response) => {
 export const getUserById = async (request, response) => {
     try {
         const idForSearch = request.params.id;
-        const userById = await usuarioModel.findById(idForSearch).populate({ select: "name" }).select('-password');
+        const userById = await usuarioModel.findById(idForSearch).populate( "name").select('-password');
         return response.status(200).json({
             "mensaje": "Petición Exitosa",
             "data": userById

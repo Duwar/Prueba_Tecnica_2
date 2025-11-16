@@ -23,7 +23,8 @@ res.send("El servidor funciona!")
 app.use(cors()); // habilitar CORS
 app.use(express.json()); //es para usar formato json
 app.use('/users', userRouter);
-
+app.use('/apuestas', userRouter);
+app.use('/ruletas', userRouter);
 app.use('/uploads', express.static(path.join(_dirname, "src/uploads")));
 app.use("/login", loginRouter);
 

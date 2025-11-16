@@ -4,7 +4,7 @@ import {createRoulette, openRoulette, closeRoulette, listRoulettes} from "../con
 
 export const ruletasRouter = express.Router();
 
-ruletasRouter.post('/', auth("admin"), createRoulette);
+ruletasRouter.post('/crear', auth("admin"), createRoulette);
 ruletasRouter.put('/open/:id', auth("admin"), openRoulette);
 ruletasRouter.put('/close/:rouletteId', auth("admin"), closeRoulette);
 ruletasRouter.get('/', listRoulettes);
