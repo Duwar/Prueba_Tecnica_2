@@ -1,41 +1,37 @@
 import { verifyToken } from "../config/jwt.js";
 
-export const auth = (reqRole)=>{
-    return async (request, response, next) =>{
+export const auth = (allowedRoles) => {
+  return async (req, res, next) => {
+    try {
+      // 1. Verificar que exista token
+      const tokenHeader = req.headers["authorization"];
+      if (!tokenHeader) {
+        return res.status(401).json({ mensaje: "No se encontró token, permiso denegado" });
+      }
 
-        // 1. Verificar si si se envia un token en la cabecera de la petición
-        const token = request.headers["authorization"];
-        console.log("El token recibido en la cabecera de la petición " + token);
+      // 2. Extraer token del formato "Bearer <token>"
+      const token = tokenHeader.split(" ")[1];
+      if (!token) {
+        return res.status(401).json({ mensaje: "Token mal formado" });
+      }
 
-        if(!token){
-            return response.status(401).json({
-                "mensaje":"No se encontro token, permiso denegado"
-            });
-        }
+      // 3. Decodificar token
+      const decoded = await verifyToken(token);
+      req.user = decoded; // guardamos info del usuario en request
 
-        //2. Verificar que el token sea permitido (JWT)
-        const allowedToken = token.split(" ")[1];
-        console.log("Token después de separarlo del Bearer: " + allowedToken)
+      // 4. Normalizar allowedRoles a array
+      if (typeof allowedRoles === "string") allowedRoles = [allowedRoles];
 
-        try {
-            const decoded = await verifyToken(allowedToken);
-            console.log("información decodificación del token " , decoded);
-         
-         //3. Verificar especificamente si el rol es adminsitardor
-         if(reqRole === "admin" && decoded.admin === false){
-            return response.status(401).json({
-                "mensaje" : "Acesso no permitido, se requiere perfil de administrador"
-            });
-         }   
-        } catch (error) {
-            return response.status(401).json({
-                "mensaje" : "Fallo la autenticación: Token no permitido"
-            })
-        }
-        
-//Indica que debe continuar con el siguiente proceso
+      // 5. Verificar rol del usuario
+      if (!allowedRoles.includes(decoded.role)) {
+        return res.status(403).json({ mensaje: "Acceso no permitido para tu rol" });
+      }
 
-        next();
+      // 6. Continuar con la siguiente función
+      next();
+    } catch (error) {
+      console.error("Error en auth middleware:", error);
+      return res.status(401).json({ mensaje: "Fallo la autenticación", error: error.message || error });
     }
-
-}
+  };
+};

@@ -5,6 +5,8 @@ import { fileURLToPath } from "url"; // modulo de node
 import path from "path"; // modulo de node
 import { conexionMongo } from "./src/config/db.js";
 import { userRouter } from './src/routes/usuario.routes.js';
+import { ruletasRouter } from './src/routes/ruleta.routes.js';
+import { apuestaRouter } from './src/routes/apuesta.routes.js';
 import { loginRouter } from "./src/routes/login.routes.js";
 
 const app = express();
@@ -23,8 +25,8 @@ res.send("El servidor funciona!")
 app.use(cors()); // habilitar CORS
 app.use(express.json()); //es para usar formato json
 app.use('/users', userRouter);
-app.use('/apuestas', userRouter);
-app.use('/ruletas', userRouter);
+app.use('/apuestas', apuestaRouter);
+app.use('/ruletas', ruletasRouter);
 app.use('/uploads', express.static(path.join(_dirname, "src/uploads")));
 app.use("/login", loginRouter);
 

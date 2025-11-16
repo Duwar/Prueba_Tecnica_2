@@ -4,5 +4,5 @@ import { auth } from "../middleware/auth.js";
 
 export const apuestaRouter = express.Router();
 
-apuestaRouter.post('/:rouletteId',auth("user"), placeBet);
+apuestaRouter.post('/:rouletteId',auth(["user", "admin"]), placeBet);
 

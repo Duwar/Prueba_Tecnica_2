@@ -1,7 +1,7 @@
-import { ruletaModel } from"../models/ruleta.model.js";
-import { apuestaModel } from"../models/apuesta.model.js";
+import { ruletaModel } from "../models/ruleta.model.js";
+import { apuestaModel } from "../models/apuesta.model.js";
 
-exports.placeBet = async (req, res) => {
+export const placeBet = async (req, res) => {
     const { rouletteId } = req.params;
     const { number, color, amount } = req.body;
 
